@@ -7,20 +7,20 @@
     <title>Fingerprint</title>
 </head>
 <body>
-    <script>
+    <script type="text/javascript">
         if (window.parent !== window) {
             // Get credentials
             const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: (searchParams, prop) => searchParams.get(prop),
             });
-            const { eid: extensionId, key: publicKey } = params;
+            const { eid: extensionId, lid: linkedId, key: publicKey } = params;
 
             // Initialize the agent
             const fpPromise = import(`https://fpjscdn.net/v3/${ publicKey }`)
                 .then(FingerprintJS => FingerprintJS.load({ apiKey: publicKey }));
             
             fpPromise
-                .then(fp => fp.get())
+                .then(fp => fp.get({ linkedId }))
                 .then(result => {
                     // Send the result to parent window
                     window.parent.postMessage({
