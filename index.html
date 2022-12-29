@@ -14,7 +14,6 @@
                 get: (searchParams, prop) => searchParams.get(prop),
             });
             const { eid: extensionId, lid: linkedId, key: publicKey } = params;
-            console.log({ publicKey, linkedId, extensionId });
 
             // Initialize the agent
             const fpPromise = import(`https://fpcdn.io/v3/${ publicKey }`)
